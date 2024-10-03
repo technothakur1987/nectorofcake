@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+/* Reset and global styles */
+*, body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+}
+
+/* Hide scrollbar but allow scrolling */
+html, body, .admin {
+  -ms-overflow-style: none; /* Hide scrollbars in IE and Edge */
+  scrollbar-width: none;    /* Hide scrollbars in Firefox */
+  overflow-x: hidden;
+}
+
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none;  /* Hide scrollbars in Chrome, Safari, and Opera */
+}
+.imagedropfilter{
+    filter: drop-shadow(0px 0px 16px #e6ab0b);
+ }
+ .imagedropfilterbrown{
+  filter: drop-shadow(0px 0px 16px #361513);
+ }
+ .rotateY180{
+    transform: rotateY(180deg);
+ }
+ .rotate{
+  transform: rotateZ(180deg);
+}
+
+
+ .navbar .active{
+    
+    border-bottom: 2px solid #e6ab0b;
+ }
+
+ /* .parallex{
+  
+
+  height: 100vh;
+    background: linear-gradient(rgba(29, 29, 27, 0), rgba(29, 29, 27, 0)), url('https://ibb.co/5cvVMBB');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    scroll-behavior: smooth;
+
+ } */
+
+ 
+
+ @media only screen and (min-width: 00px) and (max-width: 767.98px) {
+  .circle{
+    height: 30vh;
+    width: 30vh;
+    border-radius: 50%;
+    background-color: red;
+    position:absolute;
+    bottom:-8%;
+    left: -10%;
+    z-index: 0!important;
+   }
+   .mqrotateY180{
+    transform: rotateY(0deg);
+ }
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 1023.98px) {
+  .circle{
+    height: 30vh;
+    width: 30vh;
+    border-radius: 50%;
+    background-color: red;
+    position:absolute;
+    bottom:-8%;
+    left: -10%;
+    z-index: 0!important;
+   }
+   .mqrotateY180{
+    transform: rotateY(0deg);
+ }
+}
+@media only screen and (min-width: 1024px) and (max-width: 1279.98px) {
+  .circle{
+    height: 70vh;
+    width: 70vh;
+    border-radius: 50%;
+    background-color: red;
+    position:absolute;
+    bottom:-8%;
+    left: -10%;
+    z-index: 0!important;
+   }
+   .mqrotateY180{
+    transform: rotateY(180deg);
+ }
+}
+
+@media only screen and (min-width: 1280px) and (max-width: 1535.98px) {
+  .circle{
+    height: 82vh;
+    width: 82vh;
+    border-radius: 50%;
+    background-color: red;
+    position:absolute;
+    bottom:-25%;
+    left: -10%;
+    z-index: 0!important;
+   }
+   .mqrotateY180{
+    transform: rotateY(180deg);
+ }
+}
+
+
+ 
+
+
+ 
+
+ 
