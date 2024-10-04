@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import video from "../../assets/video5.mp4";
 import { useSelector } from "react-redux";
 import Loader from "../../GlobalCompo/Loader";
-import SearchbyName from "./filter/SearchbyName";
-import CategoryDropDown from "./filter/CategoryDropDown";
-import PriceDropDown from "./filter/PriceDropDown";
 
 const Product = () => {
   // Scroll to top when the component is mounted
@@ -12,36 +9,35 @@ const Product = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const {
-    loader,
-    products,
-    filteredProducts,
-    searchname,
-    searchCat,
-    searchPrice,
-  } = useSelector((state) => state.cakeSlice);
-  console.log(filteredProducts);
-  console.log(`search by name ${searchname}`);
-  console.log(`search by cat : ${searchCat}`);
-  console.log(`search by price: ${searchPrice} `);
+  const { loader, products } = useSelector((state) => state.cakeSlice);
+  console.log(products)
+  const itemsPerPage = 6; // Number of products to display per page
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  // Calculate total pages
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+  
+  // Calculate the starting index of the products for the current page
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  
+  // Slice the products array to get the current page's products
+  const currentProducts = products.slice(startIndex, startIndex + itemsPerPage);
 
-  const DisPrice = (price) => {
-    // Generate a random discount percentage between 5% and 30%
-    const randomDiscount = Math.floor(Math.random() * (30 - 5 + 1)) + 5;
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
-    // Calculate the discount amount
-    const discountAmount = (randomDiscount / 100) * price;
-
-    // Add the discount to the price
-    const finalPrice = price + discountAmount;
-
-    // Return the final price with the discount applied
-    return Math.round(finalPrice);
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   return (
     <div className="font-Playfair">
-      <div className="shopHeader h-[40vh] md:h-[55vh] w-[100vw] bg-[#8b4513] relative overflow-hidden">
+      <div className="shopHeader h-[40vh] md:h-[60vh] w-[100vw] bg-[#8b4513] relative overflow-hidden">
         <video
           src={video}
           loop
@@ -69,6 +65,12 @@ const Product = () => {
       </div>
 
       <div className="min-h-screen bg-[#eece76] pt-5 pb-[25vh] px-[5vw]">
+        {
+          products.length > 0 ?<h2 className="text-[#361513] text-3xl md:text-5xl font-bold mb-5 text-center uppercase ">
+          Explore Our Best Offerings
+        </h2>:''
+        }
+      
         {/* Showing Loader if it's true */}
         {loader && (
           <div className="py-5 w-full flex justify-center items-center">
@@ -76,21 +78,10 @@ const Product = () => {
           </div>
         )}
 
-        {/* Filters */}
-        <div className="flex items-center px-5">
-          <div className="basis-1/2 flex justify-start gap-5">
-            <CategoryDropDown />
-            <PriceDropDown />
-          </div>
-          <div className="basis-1/2 flex justify-end">
-            <SearchbyName />
-          </div>
-        </div>
-
         {/* Showing products */}
         <div className="flex flex-wrap items-stretch justify-start">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
+          {currentProducts.length > 0 ? (
+            currentProducts.map((product) => (
               <div className="basis-1/3 min-h-[40vh] p-5 flex" key={product.id}>
                 <div className="flex flex-col bg-[#361513] rounded-lg w-full">
                   <img
@@ -101,20 +92,8 @@ const Product = () => {
                   <h2 className="text-center text-2xl font-bold text-[#eece76] uppercase mb-1">
                     {product.title}
                   </h2>
-                  <h2 className="text-center text-2xl font-normal text-[#eece76] mb-3">
-                    Rs{" "}
-                    <span className="line-through text-[#d1a35a] text-lg font-light">
-                      {DisPrice(Number(product.price))}
-                    </span>{" "}
-                    <span className="text-[#f5cd79] font-semibold text-2xl">
-                      {product.price}
-                    </span>{" "}
-                    /- per KG
-                  </h2>
-
                   <p className="text-center text-xl font-bold text-[#eece76] mx-5 mb-2">
-                    {product.ingredients.join(", ")}{" "}
-                    {/* Display ingredients dynamically */}
+                    {product.ingredients.join(", ")} {/* Display ingredients dynamically */}
                   </p>
                   <div className="flex items-center justify-between px-5 py-5">
                     <button className="text-sm font-bold text-[#361513] bg-[#eece76] px-4 rounded-lg py-2 border border-1 border-[#eece76] hover:bg-[#361513] hover:text-[#eece76] transition duration-500 ease cursor-pointer">
@@ -135,6 +114,30 @@ const Product = () => {
             </div>
           )}
         </div>
+
+        {/* Pagination Controls */}
+        {
+          products.length > 0 ? <div className="flex justify-center mt-5">
+          <button 
+            onClick={handlePrevPage} 
+            className="mx-2 px-4 py-2 bg-[#361513] text-[#eece76] rounded-lg disabled:opacity-50" 
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span className="mx-2 text-xl">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button 
+            onClick={handleNextPage} 
+            className="mx-2 px-4 py-2 bg-[#361513] text-[#eece76] rounded-lg disabled:opacity-50" 
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>:''
+        }
+       
       </div>
     </div>
   );

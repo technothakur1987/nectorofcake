@@ -302,6 +302,6 @@ export default Product;
 
 
 task to do 
-1. make a cart page 
-2. upload the products to firebase 
-3.make shop page 
+1. properly chaeck and apply filter functions here 
+2. make a product  details page 
+3. cart functionality 

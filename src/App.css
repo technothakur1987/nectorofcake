@@ -37,18 +37,11 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
     border-bottom: 2px solid #e6ab0b;
  }
 
- /* .parallex{
-  
+ #searchbyname::placeholder{
+  color: #8b4513;
+ }
 
-  height: 100vh;
-    background: linear-gradient(rgba(29, 29, 27, 0), rgba(29, 29, 27, 0)), url('https://ibb.co/5cvVMBB');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100% 100%;
-    background-attachment: fixed;
-    scroll-behavior: smooth;
 
- } */
 
  
 

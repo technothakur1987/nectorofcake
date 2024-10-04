@@ -103,10 +103,10 @@ const Navbar = () => {
         )}
 
         <NavLink to='/SignUp' className='gsapNavClass41'>Sign-In</NavLink>
-        <button className='relative gsapNavClass5'>
+        <NavLink to='/Cart' className='relative gsapNavClass5'>
           <i className="ri-shopping-cart-fill"></i>
           <span className='rounded-full bg-[#e6ab0b] h-[1.5rem] w-[1.5rem] absolute top-[-40%] text-base'>2</span>
-        </button>
+        </NavLink>
       </div>
 
       {/* Mobile Dropdown Menu (with smooth transition) */}
@@ -129,10 +129,10 @@ const Navbar = () => {
         )}
 
         <NavLink to='/SignUp' className='gsapNavClass41 mb-8' onClick={toggleMobileMenu}>Sign-In</NavLink>
-        <button className='relative gsapNavClass5 mb-8'>
+        <NavLink to='/Cart' className='relative gsapNavClass5 mb-8'>
           <i className="ri-shopping-cart-fill"></i>
           <span className='rounded-full bg-[#e6ab0b] h-[1.5rem] w-[1.5rem] absolute top-[-40%] text-base'>2</span>
-        </button>
+        </NavLink>
       </div>
     </div>
   );

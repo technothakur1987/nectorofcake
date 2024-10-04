@@ -10,11 +10,12 @@ import Footer from './GlobalCompo/Footer'
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchTestinomials } from "./store/CakeSlice"
+import { fetchTestinomials ,fetchProducts} from "./store/CakeSlice"
 import Login from './GlobalCompo/Login'
 import SignUp from './GlobalCompo/SignUp'
 import User from './user/user'
 import Admin from './admin/Admin'
+import Cart from './GlobalCompo/Cart'
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
@@ -26,17 +27,15 @@ import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 const App = () => {
 
   const dispatch = useDispatch();
-  const { loader ,testimonials} = useSelector(
+  const { loader ,testimonials,products} = useSelector(
     (state) => state.cakeSlice
   );
-  console.log(loader)
-  console.log(testimonials)
+  
 
 
   useEffect(() => {
  dispatch(fetchTestinomials());
-    // dispatch(fetchAllBlogs());
-    // dispatch(fetchAllContact());
+ dispatch(fetchProducts());
    
   }, [dispatch]);
   return (
@@ -52,6 +51,7 @@ const App = () => {
       <Route path='/SignUp' element={<SignUp/>}/>
       <Route path='/User' element={<User/>}/>
       <Route path='/Admin' element={<Admin/>}/>
+      <Route path='/Cart' element={<Cart/>}/>
       <Route path='/*' element={<ErrorPage/>}/>
       </Routes>
       
