@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import video from "../../assets/video5.mp4";
 import { useSelector } from "react-redux";
 import Loader from "../../GlobalCompo/Loader";
+import SearchbyName from "./filter/SearchbyName";
+import CategoryDropDown from "./filter/CategoryDropDown";
+import PriceDropDown from "./filter/PriceDropDown";
 
 const Product = () => {
   // Scroll to top when the component is mounted
@@ -9,35 +12,46 @@ const Product = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const { loader, products } = useSelector((state) => state.cakeSlice);
-  console.log(products)
-  const itemsPerPage = 6; // Number of products to display per page
+  const {
+    loader,
+    products,
+    filteredProducts,
+  } = useSelector((state) => state.cakeSlice);
+
+  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  
+  const productsPerPage = 6; // Number of products per page
+
   // Calculate total pages
-  const totalPages = Math.ceil(products.length / itemsPerPage);
-  
-  // Calculate the starting index of the products for the current page
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  
-  // Slice the products array to get the current page's products
-  const currentProducts = products.slice(startIndex, startIndex + itemsPerPage);
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  // Get current products for the page
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const DisPrice = (price) => {
+    const randomDiscount = Math.floor(Math.random() * (30 - 5 + 1)) + 5;
+    const discountAmount = (randomDiscount / 100) * price;
+    const finalPrice = price + discountAmount;
+    return Math.round(finalPrice);
+  };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+      setCurrentPage((prev) => prev + 1);
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage((prev) => prev - 1);
     }
   };
 
   return (
     <div className="font-Playfair">
-      <div className="shopHeader h-[40vh] md:h-[60vh] w-[100vw] bg-[#8b4513] relative overflow-hidden">
+      <div className="shopHeader h-[40vh] md:h-[55vh] w-[100vw] bg-[#8b4513] relative overflow-hidden">
         <video
           src={video}
           loop
@@ -45,7 +59,6 @@ const Product = () => {
           muted
           className="absolute top-0 left-0 w-full h-full object-cover brightness-[70%]"
         />
-
         <div className="absolute w-full h-[13vh] top-0 left-0 bg-[#e3d0c269]"></div>
         <img
           src="https://i.ibb.co/kcgyhPx/beeflap.gif"
@@ -65,24 +78,31 @@ const Product = () => {
       </div>
 
       <div className="min-h-screen bg-[#eece76] pt-5 pb-[25vh] px-[5vw]">
-        {
-          products.length > 0 ?<h2 className="text-[#361513] text-3xl md:text-5xl font-bold mb-5 text-center uppercase ">
-          Explore Our Best Offerings
-        </h2>:''
-        }
-      
-        {/* Showing Loader if it's true */}
         {loader && (
           <div className="py-5 w-full flex justify-center items-center">
             <Loader color="border-[#8b4513]" />
           </div>
         )}
 
-        {/* Showing products */}
-        <div className="flex flex-wrap items-stretch justify-start">
-          {currentProducts.length > 0 ? (
+        {/*Showing filters only when loading is done */}
+        {
+          !loader && ( <div className="flex items-center px-5">
+            <div className="basis-1/2 flex justify-start gap-5">
+              <CategoryDropDown />
+              <PriceDropDown />
+            </div>
+            <div className="basis-1/2 flex justify-end">
+              <SearchbyName />
+            </div>
+          </div>)
+        }
+       
+
+        {/* Showing current products */}
+        <div className="flex flex-wrap items-stretch justify-start w-full ">
+          {(currentProducts.length > 0 && !loader) ? (
             currentProducts.map((product) => (
-              <div className="basis-1/3 min-h-[40vh] p-5 flex" key={product.id}>
+              <div className="basis-full w-full  md:basis-1/3 min-h-[40vh] p-5 flex" key={product.id}>
                 <div className="flex flex-col bg-[#361513] rounded-lg w-full">
                   <img
                     src={product.image}
@@ -92,8 +112,18 @@ const Product = () => {
                   <h2 className="text-center text-2xl font-bold text-[#eece76] uppercase mb-1">
                     {product.title}
                   </h2>
+                  <h2 className="text-center text-2xl font-normal text-[#eece76] mb-3">
+                    Rs{" "}
+                    <span className="line-through text-[#d1a35a] text-lg font-light">
+                      {DisPrice(Number(product.price))}
+                    </span>{" "}
+                    <span className="text-[#f5cd79] font-semibold text-2xl">
+                      {product.price}
+                    </span>{" "}
+                    /- per KG
+                  </h2>
                   <p className="text-center text-xl font-bold text-[#eece76] mx-5 mb-2">
-                    {product.ingredients.join(", ")} {/* Display ingredients dynamically */}
+                    {product.ingredients.join(", ")}
                   </p>
                   <div className="flex items-center justify-between px-5 py-5">
                     <button className="text-sm font-bold text-[#361513] bg-[#eece76] px-4 rounded-lg py-2 border border-1 border-[#eece76] hover:bg-[#361513] hover:text-[#eece76] transition duration-500 ease cursor-pointer">
@@ -107,7 +137,7 @@ const Product = () => {
               </div>
             ))
           ) : (
-            <div className="py-5 w-full flex justify-center items-center">
+            <div className="py-28 w-full flex justify-center items-center">
               <h2 className="text-[#361513] text-3xl md:text-5xl font-bold mb-5 text-center uppercase">
                 NO Products To Show
               </h2>
@@ -116,28 +146,36 @@ const Product = () => {
         </div>
 
         {/* Pagination Controls */}
-        {
-          products.length > 0 ? <div className="flex justify-center mt-5">
-          <button 
-            onClick={handlePrevPage} 
-            className="mx-2 px-4 py-2 bg-[#361513] text-[#eece76] rounded-lg disabled:opacity-50" 
-            disabled={currentPage === 1}
-          >
-            Previous
-          </button>
-          <span className="mx-2 text-xl">
-            Page {currentPage} of {totalPages}
-          </span>
-          <button 
-            onClick={handleNextPage} 
-            className="mx-2 px-4 py-2 bg-[#361513] text-[#eece76] rounded-lg disabled:opacity-50" 
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </button>
-        </div>:''
-        }
-       
+        {/* Pagination Controls */}
+{
+  currentProducts.length > 0 && (
+    <div className="flex justify-center items-center mt-10 gap-5">
+      <button
+        onClick={handlePrevPage}
+        disabled={currentPage === 1}
+        className={`px-5 py-1 text-lg font-bold rounded-lg border transition-all duration-300 ease-in-out 
+          ${currentPage === 1 ? "bg-[#eece76] text-[#361513] border-[#361513] opacity-[0.5] cursor-not-allowed" : "bg-[#eece76] text-[#361513] border-[#361513] hover:bg-[#361513] hover:text-[#eece76] cursor-pointer"}`}
+      >
+        <i class="ri-arrow-left-double-fill text-2xl"></i>
+      </button>
+
+      <span className="px-4 py-2 text-xl font-bold text-[#361513]">
+        Page {currentPage} of {totalPages}
+      </span>
+
+      <button
+        onClick={handleNextPage}
+        disabled={currentPage === totalPages}
+        className={`px-5 py-1 text-lg font-bold rounded-lg border transition-all duration-300 ease-in-out 
+          ${currentPage === totalPages ?  "bg-[#eece76] text-[#361513] border-[#361513] opacity-[0.5] cursor-not-allowed"  : "bg-[#eece76] text-[#361513] border-[#361513] hover:bg-[#361513] hover:text-[#eece76] cursor-pointer"}`}
+      >
+        <i class="ri-arrow-right-double-fill text-2xl"></i>
+      </button>
+    </div>
+  )
+}
+
+        
       </div>
     </div>
   );

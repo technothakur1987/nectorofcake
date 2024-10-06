@@ -25,7 +25,7 @@ const CategoryDropDown = () => {
     <div>
       <select
         onChange={(e) => onCategoryChange(e)} // Call the parent function on change
-        className="border focus:outline-none text-[#8b4513] focus:ring-2 focus:ring-[#8b4513] p-2 w-full rounded-md bg-[#f8f1e1]  "
+        className="border md:w-[18vw] focus:outline-none text-[#8b4513] focus:ring-2 focus:ring-[#8b4513] p-2 w-full rounded-md bg-[#f8f1e1]  "
       >
         <option value="All">Select a category</option>
         {categoryArray.map((category, index) => (

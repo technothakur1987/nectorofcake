@@ -18,6 +18,7 @@ import Admin from './admin/Admin'
 import Cart from './GlobalCompo/Cart'
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
+import ProductDetails from './pages/ProductDetails/ProductDetails'
 
 
 
@@ -46,6 +47,7 @@ const App = () => {
     <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/ProductsPage' element={<Product/>}/>
+      <Route path='/ProductDetails/:id' element={<ProductDetails/>}/>
       <Route path='/ConnectUs' element={<ConnectUs/>}/>
       <Route path='/Login' element={<Login/>}/>
       <Route path='/SignUp' element={<SignUp/>}/>

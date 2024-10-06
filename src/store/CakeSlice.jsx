@@ -43,77 +43,96 @@ const cakeSlice = createSlice({
         console.log(state.searchname)
         console.log(state.searchCat)
         console.log(state.searchPrice)
+        console.log(state.filteredProducts)
 
-        const allProducts = state.filteredProducts; // Original product list
+        
 
         // Reset to all products if all search filters are default
       if (state.searchname === 'All' && state.searchCat === 'All' && state.searchPrice === 0) {
-        state.filteredProducts = allProducts;
-        return;
+        console.log('no filter')
+        state.filteredProducts = state.products
+        console.log(state.filteredProducts)
+       
       }
 
-      // When only the name is filtered
-      if (state.searchname !== 'All' && state.searchCat === 'All' && state.searchPrice === 0) {
-        state.filteredProducts = allProducts.filter(product =>
+      // When only the name is filtered CORRECT
+      else if (state.searchname !== 'All' && state.searchCat === 'All' && state.searchPrice === 0) {
+        console.log('name filter')
+        state.filteredProducts = state.products.filter(product =>
           product.title.toLowerCase().includes(state.searchname.toLowerCase())
         );
-        return;
+        console.log(state.filteredProducts)
+       
       }
 
-      // When only the category is filtered
-      if (state.searchname === 'All' && state.searchCat !== 'All' && state.searchPrice === 0) {
-        state.filteredProducts = allProducts.filter(product => 
+      // When only the category is filtered CORRECT
+      else if (state.searchname === 'All' && state.searchCat !== 'All' && state.searchPrice === 0) {
+        console.log('category filter')
+        state.filteredProducts = state.products.filter(product => 
           product.category === state.searchCat
         );
-        return;
+        console.log(state.filteredProducts)
+        
       }
 
-      // When only the price is filtered
-      if (state.searchname === 'All' && state.searchCat === 'All' && state.searchPrice > 0) {
-        state.filteredProducts = allProducts.filter(product => 
+      // When only the price is filtered CORRECT
+     else if (state.searchname === 'All' && state.searchCat === 'All' && state.searchPrice > 0) {
+        console.log('price filter')
+        state.filteredProducts = state.products.filter(product => 
           product.price <= state.searchPrice
         );
-        return;
+        console.log(state.filteredProducts)
+       
       }
 
-      // When both name and category are filtered
-      if (state.searchname !== 'All' && state.searchCat !== 'All' && state.searchPrice === 0) {
-        state.filteredProducts = allProducts.filter(product =>
+      // When both name and category are filtered CORRECT
+      else if (state.searchname !== 'All' && state.searchCat !== 'All' && state.searchPrice === 0) {
+        console.log('name and category filter')
+        state.filteredProducts = state.products.filter(product =>
           product.title.toLowerCase().includes(state.searchname.toLowerCase()) &&
           product.category === state.searchCat
         );
-        return;
+        console.log(state.filteredProducts)
+        
       }
 
-      // When both name and price are filtered
-      if (state.searchname !== 'All' && state.searchCat === 'All' && state.searchPrice > 0) {
-        state.filteredProducts = allProducts.filter(product =>
+      // When both name and price are filtered CORRECT
+      else if (state.searchname !== 'All' && state.searchCat === 'All' && state.searchPrice > 0) {
+        console.log('name and price filter')
+        state.filteredProducts = state.products.filter(product =>
           product.title.toLowerCase().includes(state.searchname.toLowerCase()) &&
           product.price <= state.searchPrice
         );
-        return;
+        console.log(state.filteredProducts)
+        
       }
 
-      // When both category and price are filtered
-      if (state.searchname === 'All' && state.searchCat !== 'All' && state.searchPrice > 0) {
-        state.filteredProducts = allProducts.filter(product =>
+      // When both category and price are filtered CORRECT
+     else if (state.searchname === 'All' && state.searchCat !== 'All' && state.searchPrice > 0) {
+        console.log('category and price filter')
+        state.filteredProducts = state.products.filter(product =>
           product.category === state.searchCat &&
           product.price <= state.searchPrice
         );
-        return;
+        console.log(state.filteredProducts)
+        
       }
 
       // When name, category, and price are all filtered
-      if (state.searchname !== 'All' && state.searchCat !== 'All' && state.searchPrice > 0) {
-        state.filteredProducts = allProducts.filter(product =>
+      else if (state.searchname !== 'All' && state.searchCat !== 'All' && state.searchPrice > 0) {
+        console.log('name, category and price filter')
+        state.filteredProducts = state.products.filter(product =>
           product.title.toLowerCase().includes(state.searchname.toLowerCase()) &&
           product.category === state.searchCat &&
           product.price <= state.searchPrice
         );
-        return;
+        console.log(state.filteredProducts)
+        
       }
-      // Fallback (default to all products if no other conditions match)
-      state.filteredProducts = allProducts;
+      else{
+        state.filteredProducts = state.products
+      }
+      
     },
     
   

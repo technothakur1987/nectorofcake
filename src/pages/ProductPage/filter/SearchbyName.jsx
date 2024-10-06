@@ -30,7 +30,7 @@ const SearchbyName = () => {
                 name="searchbyname"
                 id="searchbyname"
                 value={title}
-                className='w-[35vw] border focus:outline-none text-[#8b4513] focus:ring-2 focus:ring-[#8b4513] p-2 rounded-md bg-[#f8f1e1]'
+                className='  my-5 md:my-[initial] w-[70vw] md:w-[27vw] border focus:outline-none text-[#8b4513] focus:ring-2 focus:ring-[#8b4513] p-1 md:p-2 rounded-md bg-[#f8f1e1] text-center md:text-start'
                 placeholder='Search by Name'
                 onChange={handleSearch}
             />

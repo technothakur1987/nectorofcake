@@ -10,7 +10,7 @@ const PriceDropDown = () => {
 
   // Extract unique prices from products and round them to the nearest hundred
   const uniquePrices = [...new Set(products.map(product => Math.round(product.price / 100) * 100))];
-  console.log(uniquePrices)
+  
 
   // Create dropdown options from the unique rounded prices
   const priceOptions = uniquePrices.sort((a, b) => a - b).map(price => ({
@@ -29,7 +29,7 @@ const PriceDropDown = () => {
     <div className="">
       <select
         onChange={(e) => onPriceChange(e)} // Call the parent function on change
-        className="border focus:outline-none text-[#8b4513] focus:ring-2 focus:ring-[#8b4513] p-2 w-full rounded-md bg-[#f8f1e1]  "
+        className=" md:w-[18vw] border focus:outline-none text-[#8b4513] focus:ring-2 focus:ring-[#8b4513] p-2 w-full rounded-md bg-[#f8f1e1]  "
       >
         <option value={0}>Select a price range</option>
         {priceOptions.map((option, index) => (
